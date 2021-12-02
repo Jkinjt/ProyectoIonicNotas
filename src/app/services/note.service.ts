@@ -9,7 +9,8 @@ import { Note } from '../model/Note';
 })
 export class NoteService {
 private myCollection:AngularFirestoreCollection;
-  constructor(db:AngularFirestore,
+  constructor(
+    private db:AngularFirestore,
     ) { 
     //se conecta a la base de datos y se pasa por parametro la base a la que se quiera conectar
     //el parametro que esta aqui metido el el que corresponde para que debuelva la base de dtos
@@ -38,8 +39,29 @@ private myCollection:AngularFirestoreCollection;
       //this.myCollection.add(note)
     }
     /**
+     * getNotesByPage() -> pages=1, undefined
+     * getNotesByPage(2)-> pages=2, undefined
+     * getNotesByPage(2)
+     * @param page 
+     * @param criteria 
+     * 
+     */
+    
+    
+
+    public getNotesByPage(page:number=1,criteria?:any){
+      this.db
+
+    }
+
+
+
+
+    /**
      * devuelve todas las notas en un observable
      */
+
+    
 
     public getNotes():Observable<Note[]>{//tambien puede ponerse Array<Note>
       
@@ -61,6 +83,8 @@ private myCollection:AngularFirestoreCollection;
         });//final del subcribe
       });//final del return observable      
     }//final del metodo getNotes
+
+
     public getNote(id:string):Promise<Note>{
       return new Promise(async(resolve,rejects)=>{
         let note:Note=null;
