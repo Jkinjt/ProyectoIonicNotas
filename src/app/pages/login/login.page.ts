@@ -1,0 +1,51 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
+import { User } from '@codetrix-studio/capacitor-google-auth/dist/esm/user';
+import { Platform } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+})
+export class LoginPage implements OnInit {
+  public userinfo:User;
+  private isAndroid:boolean;
+
+  constructor(
+    //te da información sobre la plataforma en la que estas
+    private platform:Platform,
+    private authS:AuthService,
+    private root:Router
+  ) {
+    this.isAndroid=platform.is("android");
+    if(!this.isAndroid){
+      //para leer la config clientid del meta de index-html
+      GoogleAuth.init();
+
+    }
+   }
+
+  ngOnInit() {
+  }
+  ionViewWillEnter(){
+    if(this.authS.isLogged){
+      this.root.navigate(['private/tabs/tab1']);
+    }
+  }
+
+  public async signin(){
+    try{
+
+      let user:User= await GoogleAuth.signIn();
+      this.userinfo=user;
+      this.authS.user=user;
+      this.root.navigate(['private/tabs/tab1']);
+    }catch(err){
+
+    }
+    
+  }
+}

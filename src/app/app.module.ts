@@ -10,6 +10,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LocalStorageService } from './services/local-storage.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 export function loadTraslator(http:HttpClient){
@@ -49,9 +52,11 @@ export function loadTraslator(http:HttpClient){
     ],
   providers: [{ 
     provide: RouteReuseStrategy,
-    useClass: IonicRouteStrategy,
-    
-  }
+    useClass: IonicRouteStrategy,    
+  },
+  LocalStorageService,
+  AuthService,
+  AuthGuardService
   
   
   ],
