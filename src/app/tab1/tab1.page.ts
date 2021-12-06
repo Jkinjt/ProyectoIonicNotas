@@ -114,7 +114,14 @@ export class Tab1Page {
 async openModal(){
   const modal = await this.modalController.create({
     component: EditPage,
-    cssClass: 'my-modal-class'
+    //hoja de estilos
+    cssClass: 'my-modal-class',
+    //pasar datos al modal
+    componentProps: {
+      'firstName': 'Douglas',
+      'lastName': 'Adams',
+      'middleInitial': 'N'
+    }
   });
   return await modal.present();
 }
