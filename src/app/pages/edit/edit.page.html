@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>edit</ion-title>
+    <ion-title>Editar</ion-title>
     <ion-buttons>
       <ion-icon name="close-circle" (click)="closeModal()"></ion-icon>
     </ion-buttons>
@@ -8,7 +8,20 @@
 </ion-header>
 
 <ion-content>
-  <h2>Mi modal</h2>
-  <p>Este es el perfil de {{firstName}}</p>
-
+  <form [formGroup]="formNota" (ngSubmit)="editNote()">
+    <ion-item>
+      <ion-label>Titulo</ion-label>
+      <ion-input type="text" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descripción</ion-label>
+      <ion-textarea type="text" formControlName="description"></ion-textarea>
+    </ion-item>
+    <section class="full-width">
+      <!--lo que esta entre corchetes son atributos que afectan al html-->
+      <ion-button expand="full" color="primary"
+      
+      type="submit" [disabled]="this.formNota.invalid">Editar</ion-button>
+    </section>
+  </form>
 </ion-content>

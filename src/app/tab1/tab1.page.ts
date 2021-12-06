@@ -108,24 +108,28 @@ export class Tab1Page {
       }
 
 /**
- * Método que abre un modal
+ * Método que abre un modal y le pasa los datos de la nota
+ * @param Note 
  * @returns promise<void>
  */ 
-async openModal(){
+async openModal(note:Note){
   const modal = await this.modalController.create({
     component: EditPage,
     //hoja de estilos
     cssClass: 'my-modal-class',
     //pasar datos al modal
     componentProps: {
-      'firstName': 'Douglas',
-      'lastName': 'Adams',
-      'middleInitial': 'N'
+      'key': note.key,
+      'title': note.title,
+      'description': note.description
     }
   });
   return await modal.present();
 }
 
+/**
+ * Método que muestra un cargando mientras se cargan los datos
+ */
       async presentLoading() {
         this.miLoading = await this.loading.create({      
           message: '',  

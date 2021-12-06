@@ -53,9 +53,6 @@ export class NoteService {
    * @param criteria 
    * 
    */
-
-
-
   public getNotesByPage(all?):Observable<Note[]> {
     
     if(all){
@@ -122,7 +119,11 @@ export class NoteService {
     });//final del return observable      
   }//final del metodo getNotes
 
-
+  /**
+   * Método que se sirve para buscar una nota 
+   * @param id 
+   * @returns Promise<Note>
+   */
   public getNote(id: string): Promise<Note> {
     return new Promise(async (resolve, rejects) => {
       let note: Note = null;
@@ -150,7 +151,20 @@ export class NoteService {
     return this.myCollection.doc(id).delete();
   }
 
-  public editNote(){
+  public editNote(note:Note){
+    return new Promise(async (resolve, rejects) => {
+      try {
+        let reponse:void =
+        //se crea el objeto JSON con los datos de la nota  
+        await  this.myCollection.doc(note.key).update(note);
+        
+       
+        //lo que devuelve la promesa
+        resolve(true);
+      } catch (err) {
+        rejects(err);
+      }
+    });
 
   }
 

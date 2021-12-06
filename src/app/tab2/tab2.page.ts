@@ -17,7 +17,8 @@ export class Tab2Page {
   //puntero al toast
   private miToast:HTMLIonToastElement
 
-  constructor(private fgb:FormBuilder,
+  constructor(
+    private fgb:FormBuilder,
      private noteS:NoteService,
      //para mostrar al usuario que esta ocurriendo algo
      private loadingController: LoadingController,
