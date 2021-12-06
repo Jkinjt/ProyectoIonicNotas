@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonInfiniteScroll, LoadingController, ToastController } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { $ } from 'protractor';
 import { Note } from '../model/Note';
 import { AuthService } from '../services/auth.service';
 import { NoteService } from '../services/note.service';
-
+import {EditPage} from '../pages/edit/edit.page'
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -21,7 +21,8 @@ export class Tab1Page {
     private loading:LoadingController,
     private toast:ToastController,
     private authS:AuthService,
-    private router:Router
+    private router:Router,
+    public modalController:ModalController
     ) {}
 
  async ionViewDidEnter(){
@@ -105,6 +106,18 @@ export class Tab1Page {
         await this.authS.logout();
         this.router.navigate(['']);
       }
+
+/**
+ * Método que abre un modal
+ * @returns promise<void>
+ */ 
+async openModal(){
+  const modal = await this.modalController.create({
+    component: EditPage,
+    cssClass: 'my-modal-class'
+  });
+  return await modal.present();
+}
 
       async presentLoading() {
         this.miLoading = await this.loading.create({      
