@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonInfiniteScroll, LoadingController, ToastController } from '@ionic/angular';
+import { $ } from 'protractor';
 import { Note } from '../model/Note';
+import { AuthService } from '../services/auth.service';
 import { NoteService } from '../services/note.service';
 
 @Component({
@@ -9,18 +12,30 @@ import { NoteService } from '../services/note.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  @ViewChild(IonInfiniteScroll) infinite:IonInfiniteScroll;
   public notas:Note[]=[];
   private miLoading:HTMLIonLoadingElement;
 
-  constructor(private ns:NoteService,
+  constructor(
+    private ns:NoteService,
     private loading:LoadingController,
-    private toast:ToastController) {}
+    private toast:ToastController,
+    private authS:AuthService,
+    private router:Router
+    ) {}
 
  async ionViewDidEnter(){
     await this.cargaNotas();
   }
+  /**
+   * Método que carga las notas secuencialmente
+   * @param event 
+   */
 //La ? hace que sea opcional, si ponemos event=null se no se inyecta, se hace nulo
   public async cargaNotas(event?){
+    if (this.infinite){
+      this.infinite.disabled=false;
+    }
 
     if(!event){
       await this.presentLoading();
@@ -28,7 +43,7 @@ export class Tab1Page {
     }
     this.notas=[];
     try{
-      this.notas=await this.ns.getNotes().toPromise();
+      this.notas=await this.ns.getNotesByPage('algo').toPromise();
       
     }catch(err){
       console.log(err);
@@ -47,6 +62,10 @@ export class Tab1Page {
     }
   }
 
+  /**
+   * Metodo que se usa para borrar notas de la base de datos
+   * @param nota que se desa borrar
+   */
   public async borra(nota:Note){
     await this.presentLoading();
     await this.ns.removeNote(nota.key);
@@ -67,7 +86,25 @@ export class Tab1Page {
       })
       
        */
+      /**
+       * Método que va añadiendo 10 notas a la lista de notas cada vez que el usuario desliza hacia abajo el dedo
+       * @param $event 
+       */
+      public async cargaInfinita($event){
+        console.log("CARGANDO");
+        let nuevasNotas=await this.ns.getNotesByPage().toPromise();
+        if(nuevasNotas.length<10){
+          $event.target.disable=true;
+        }
+        this.notas=this.notas.concat(nuevasNotas);
+        $event.target.complete();
+      }
 
+
+      public async logout(){
+        await this.authS.logout();
+        this.router.navigate(['']);
+      }
 
       async presentLoading() {
         this.miLoading = await this.loading.create({      
@@ -86,4 +123,6 @@ export class Tab1Page {
         });
        miToast.present();
       }
+
+      //crear metodo carga infinita
 }

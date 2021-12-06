@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { async } from '@firebase/util';
+import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from './services/auth.service';
 import { LocalStorageService } from './services/local-storage.service';
 
 @Component({
@@ -9,8 +13,15 @@ import { LocalStorageService } from './services/local-storage.service';
 })
 export class AppComponent {
   private langsAvailable = ['es', 'en'];
-  constructor(private traductor: TranslateService,
-    storage: LocalStorageService) {
+  private isAndroid=false;
+  
+  constructor(
+    private traductor: TranslateService,
+    private storage: LocalStorageService,
+    private authS:AuthService,
+    private platform:Platform
+    ) {
+      this.isAndroid=this.platform.is("android");
       //no se puede poner await dentro del constructor, se hace una trampa
     let tmp = (async () => {
       //se comprueba que exista un idioma guardaddo
@@ -42,5 +53,14 @@ export class AppComponent {
    const lang= traductor.setDefaultLang(window.navigator.language.split("-")[0]);
     
   }*/
+  }
+  async ngOnInit(){
+    this.platform.ready().then(async ()=>{
+      this.isAndroid=this.platform.is("android");
+      if(!this.isAndroid){
+        await GoogleAuth.init();
+      }
+      await this.authS.loadSession();
+    })
   }
 }

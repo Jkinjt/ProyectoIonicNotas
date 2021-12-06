@@ -21,12 +21,13 @@ export class LocalStorageService {
     try{
      await Storage.set({
         key:key,
-        value:value
+        value:JSON.stringify(value)
       });
+      result=true;
     }catch(err){
       console.log(err);
     }
-
+    console.log("Set item"+value);
     return Promise.resolve(result);
   }
 
@@ -36,27 +37,25 @@ export class LocalStorageService {
     let value=null;
     try{
       value=await Storage.get({key:key});
-
+      value=value.value;
+      if(value!=null){
+        value=JSON.parse(value);
+      }
     }catch(err){
       console.log(err);
     }
+    console.log("get Item"+value);
     return Promise.resolve(value);
   }
-  public async removeItem(key:string):Promise<any>{
-    let result:any=false;
+  public async removeItem(key:string):Promise<boolean>{
+    let result=false;
 
     try{
-      result=await Storage.remove({key:key});
+      await Storage.remove({key:key});
       //Lee los  JSON y extrae el campo que le pongamos, en esta caso extrae el campo value
-      result=result.value;
-      if(result!=null){
-        result=JSON.parse(result);
-        result=true;
-
-      }
-
+      result=true;
     }catch(err){
-      console.log(err);
+      console.error(err);
     }
     return Promise.resolve(result)
 

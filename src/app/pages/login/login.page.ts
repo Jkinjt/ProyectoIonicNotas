@@ -11,40 +11,48 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  //variable que almacena los datos del usuario
   public userinfo:User;
+  //booleano que dice si el dispositivo usado es android 
   private isAndroid:boolean;
-
-  constructor(
-    //te da información sobre la plataforma en la que estas
+    constructor(
     private platform:Platform,
     private authS:AuthService,
-    private root:Router
-  ) {
-    this.isAndroid=platform.is("android");
-    if(!this.isAndroid){
-      //para leer la config clientid del meta de index-html
-      GoogleAuth.init();
-
-    }
-   }
+    private router:Router
+  ) { }
 
   ngOnInit() {
+    
+    if(this.authS.isLogged()){
+      this.router.navigate(['private/tabs/tab1']);
+    }
   }
   ionViewWillEnter(){
-    if(this.authS.isLogged){
-      this.root.navigate(['private/tabs/tab1']);
+    
+    if(this.authS.isLogged()){
+      this.router.navigate(['private/tabs/tab1']);
     }
   }
 
+
+   //en ionViewDialEnter(){}
+  //poner google init
+  //this.platform.ready().then((){ await googleInit() await load sesion})
+
+  /**
+   * Método que registra al usuario
+   */
   public async signin(){
     try{
 
-      let user:User= await GoogleAuth.signIn();
-      this.userinfo=user;
-      this.authS.user=user;
-      this.root.navigate(['private/tabs/tab1']);
-    }catch(err){
+      await this.authS.login();
+      this.router.navigate(['private/tabs/tab1']);
 
+    }catch(err){
+      console.error(err);
+
+    }finally{
+      console.log(this.authS.user);
     }
     
   }
