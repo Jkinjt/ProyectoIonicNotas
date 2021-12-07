@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonInfiniteScroll, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { $ } from 'protractor';
 import { Note } from '../model/Note';
 import { AuthService } from '../services/auth.service';
@@ -23,7 +23,8 @@ export class Tab1Page {
     private toast:ToastController,
     private authS:AuthService,
     private router:Router,
-    public modalController:ModalController
+    public modalController:ModalController,
+    private alertController:AlertController
     ) {}
 
  async ionViewDidEnter(){
@@ -154,5 +155,31 @@ async openModal(note:Note){
        miToast.present();
       }
 
-      //crear metodo carga infinita
+      async presentAlertConfirm(note:Note) {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: 'Confirmar',
+          message: '¿Estas seguro de que quiere borrar la nota?',
+          buttons: [
+            {
+              text: 'no',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+                console.log('Confirm Cancel: blah');
+              }
+            }, {
+              text: 'si',
+              handler: () => {
+                console.log('Confirm Okay');
+                this.borra(note);
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
+
+      
 }

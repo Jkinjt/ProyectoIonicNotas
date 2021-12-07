@@ -34,7 +34,7 @@
 
       <ion-item-options side="end">
         <!--el atributo expandable sirve para que cuando se mueva mas de la cuenta se ejecute el método-->
-        <ion-item-option color="danger" expandable (click)="borra(nota)">
+        <ion-item-option color="danger" expandable (click)="presentAlertConfirm(nota)">
           <ion-icon name="remove-circle" style="zoom:3.0"></ion-icon>
         </ion-item-option>
       </ion-item-options>
