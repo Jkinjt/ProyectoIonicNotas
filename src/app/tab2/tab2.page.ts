@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Note } from '../model/Note';
 import { NoteService } from '../services/note.service';
@@ -23,7 +24,8 @@ export class Tab2Page {
      //para mostrar al usuario que esta ocurriendo algo
      private loadingController: LoadingController,
      //para invocar al toast
-     public toastController: ToastController
+     public toastController: ToastController,
+     private route:Router
      ) {
     this.formNota=this.fgb.group({
       title:["",Validators.required],
@@ -41,7 +43,7 @@ export class Tab2Page {
 
   async presentToast(msg:string,clr:string) {
     this.miToast = await this.toastController.create({
-      message: 'msg',
+      message: msg,
       duration: 2000,
       color:clr
 
