@@ -8,6 +8,8 @@
         <ion-icon name="caret-down-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-searchbar showCancelButton="focus" placeholder="Buscar"
+    (ionChange)="ionChanges($event)" debounce="1000"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

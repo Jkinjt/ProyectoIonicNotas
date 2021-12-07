@@ -109,15 +109,9 @@ export class NoteService {
     });
 
   }
-
-
-
-
   /**
    * devuelve todas las notas en un observable
    */
-
-
 
   public getNotes(): Observable<Note[]> {//tambien puede ponerse Array<Note>
 

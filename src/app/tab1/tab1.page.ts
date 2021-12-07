@@ -181,5 +181,26 @@ async openModal(note:Note){
         await alert.present();
       }
 
+     async ionChanges(event){
+        let notes:Note[]=[]
+        const value:string=event.detail.value;
+        const length=value.length;
+        if(length>1){
+          this.notas.forEach(note=>{
+            if(note.title.includes(value)||note.description.includes(value)){
+              notes.push(note);
+            }
+            });
+            this.notas=notes;
+        }else if(length==0){
+         await this.cargaNotas();
+         
+
+        }
+        
+        console.log(event.detail.value);
+
+      }
+
       
 }
