@@ -13,6 +13,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { Tab1Page } from './tab1/tab1.page';
+import { EditPage } from './pages/edit/edit.page';
 
 
 export function loadTraslator(http:HttpClient){
@@ -56,7 +58,8 @@ export function loadTraslator(http:HttpClient){
   },
   LocalStorageService,
   AuthService,
-  AuthGuardService
+  AuthGuardService,
+  
   
   
   ],

@@ -23,7 +23,8 @@ export class Tab2Page {
      //para mostrar al usuario que esta ocurriendo algo
      private loadingController: LoadingController,
      //para invocar al toast
-     public toastController: ToastController) {
+     public toastController: ToastController
+     ) {
     this.formNota=this.fgb.group({
       title:["",Validators.required],
       description:[""]
@@ -51,7 +52,9 @@ export class Tab2Page {
   ionViewDidEnter(){
    
   }
-
+  /**
+   * Método que guarda las notas en firebase
+   */
   public async addNote(){
     let newNote:Note={
       title:this.formNota.get("title").value,

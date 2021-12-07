@@ -6,6 +6,7 @@ import { Note } from '../model/Note';
 import { AuthService } from '../services/auth.service';
 import { NoteService } from '../services/note.service';
 import {EditPage} from '../pages/edit/edit.page'
+import { PartialObserver } from 'rxjs';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -124,6 +125,11 @@ async openModal(note:Note){
       'description': note.description
     }
   });
+  this.ns.setNotes(this.notas);
+  this.ns.getNotes$().subscribe(nota=>{
+    this.notas=nota;
+  });
+
   return await modal.present();
 }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Note } from '../model/Note';
 
@@ -8,6 +8,9 @@ import { Note } from '../model/Note';
   providedIn: 'root'
 })
 export class NoteService {
+  private notes:Note[]=[];
+  //variable para crear el observable
+  private notes$:Subject<Note[]>;
   //variable para almacenar la última nota vista
   private last:any=null;
   //variable que almacena la collección de firestore
@@ -19,6 +22,7 @@ export class NoteService {
     //se conecta a la base de datos y se pasa por parametro la base a la que se quiera conectar
     //el parametro que esta aqui metido el el que corresponde para que debuelva la base de datos
     this.myCollection = db.collection<any>(environment.firebaseConfig.todoCollection);
+    this.notes$=new Subject();
 
   }
   /**
@@ -37,6 +41,10 @@ export class NoteService {
             title:note.title,
             description:note.description
           });
+        
+        this.notes.push(note);
+        //Se avisa a los componentes que estan escuchando el observable que ha habido un cambio
+        this.notes$.next(this.notes);
         //lo que devuelve la promesa
         resolve(reponse.id);
       } catch (err) {
@@ -46,6 +54,16 @@ export class NoteService {
     //esto devuelve una promesa Promise<DocumentReference<firebase.firestore.DocumentData>>
     //this.myCollection.add(note)
   }
+
+  getNotes$():Observable<Note[]>{
+    return this.notes$.asObservable();
+  }
+  setNotes(notes:Note[]){
+    this.notes=notes;
+  }
+
+
+
   /**
    * Método que carga las notas conforme el usuario desliza hacia abajo la página
    * En caso de que se recargue la página vuelve a cargar las notas desde el principio
@@ -82,7 +100,10 @@ export class NoteService {
             let id=d.id;//devuelve la clave de la nota
             result.push({'key':id, ...tmp});//se guarda la nota en la lista de notas
           });
-          observer.next(result);// return del observable
+          
+          this.notes=result;//se igualan las notas
+          observer.next(this.notes);// return del observable
+          this.notes$.next(this.notes);
           observer.complete();
         });
     });
@@ -151,14 +172,23 @@ export class NoteService {
     return this.myCollection.doc(id).delete();
   }
 
-  public editNote(note:Note){
+  public editNote(oldNote:Note,newNote:Note){
     return new Promise(async (resolve, rejects) => {
       try {
         let reponse:void =
         //se crea el objeto JSON con los datos de la nota  
-        await  this.myCollection.doc(note.key).update(note);
-        
-       
+        await  this.myCollection.doc(newNote.key).update(newNote);
+        //para sustituir la nota en la lista
+        this.notes.forEach(note=>{
+          if(note.key==newNote.key){
+           
+            this.notes[this.notes.indexOf(note)]=newNote;
+          }
+        });
+      
+
+      
+       this.notes$.next(this.notes);
         //lo que devuelve la promesa
         resolve(true);
       } catch (err) {

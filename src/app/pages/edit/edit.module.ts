@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { EditPageRoutingModule } from './edit-routing.module';
 
 import { EditPage } from './edit.page';
+import { Tab1PageModule } from 'src/app/tab1/tab1.module';
+import { Tab1Page } from 'src/app/tab1/tab1.page';
 
 @NgModule({
   imports: [
@@ -15,9 +17,12 @@ import { EditPage } from './edit.page';
     ReactiveFormsModule,
     IonicModule,
     EditPageRoutingModule,
-    
+   
     
   ],
-  declarations: [EditPage]
+  declarations: [EditPage],
+  providers:[
+    
+  ]
 })
 export class EditPageModule {}

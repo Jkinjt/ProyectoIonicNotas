@@ -1,8 +1,10 @@
-import { Component, OnInit,Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Note } from 'src/app/model/Note';
 import { NoteService } from 'src/app/services/note.service';
+
+
 
 
 @Component({
@@ -11,10 +13,11 @@ import { NoteService } from 'src/app/services/note.service';
   styleUrls: ['./edit.page.scss'],
 })
 export class EditPage implements OnInit {
+  private oldNote: Note;
+  public formNota: FormGroup;
+  public miLoading: HTMLIonLoadingElement;
+  private miToast: HTMLIonToastElement;
 
-  public formNota:FormGroup;
-  public miLoading:HTMLIonLoadingElement;
-  private miToast:HTMLIonToastElement;
   //datos que se obtienen desde la pagina donde se llama el modal
   @Input() key: string;
   @Input() title: string;
@@ -22,74 +25,79 @@ export class EditPage implements OnInit {
 
 
   constructor(
-    private modalController:ModalController,
-    private noteS:NoteService,
-    private fgb:FormBuilder,
+    private modalController: ModalController,
+    private noteS: NoteService,
+    private fgb: FormBuilder,
     private loadingController: LoadingController,
+    public toastController: ToastController,
     
-    public toastController: ToastController
-   
-  ) { 
-    
+  ) {
+    this.oldNote={
+      key: this.key,
+      title: this.title,
+      description: this.description
+    }
+
+
   }
 
   ngOnInit() {
-    this.formNota=this.fgb.group({
-      title:[this.title ,Validators.required],
-      description:[this.description]
+    this.formNota = this.fgb.group({
+      title: [this.title, Validators.required],
+      description: [this.description]
     });
-    
+
   }
 
-  public async editNote(){
-    let note:Note={
-      key:this.key,
-      title:this.formNota.get("title").value,
-      description:this.formNota.get("description").value
+  public async editNote() {
+    let note: Note = {
+      key: this.key,
+      title: this.formNota.get("title").value,
+      description: this.formNota.get("description").value
     }
     //para que se cargue la página de cargado
-    await this.presentLoading();   
+    await this.presentLoading();
     try {
-      if(await this.noteS.editNote(note)){
-         //para que se cierre, esto actua como un if, si se cumple la primera condición se ejecuta la segunda parte
-      this.miLoading && this.miLoading.dismiss();
-      await this.presentToast("Nota agregada correctamente","succes");
-      this.formNota.reset();
-      this.closeModal();
+      if (await this.noteS.editNote(this.oldNote,note)) {
+        //para que se cierre, esto actua como un if, si se cumple la primera condición se ejecuta la segunda parte
+        
+        await this.presentToast("Nota agregada correctamente", "succes");
+        this.formNota.reset();
+        this.closeModal();
       }
-     
-    }catch(err){
+
+    } catch (err) {
       console.log(err);
       this.miLoading && this.miLoading.dismiss();
-      await this.presentToast("No se ha podido añadir la nota","danger")
+      await this.presentToast("No se ha podido añadir la nota", "danger")
 
-    } 
+    }
 
   }
-  
+
   /**
    * Método para cerrar el modal
    */
-  closeModal(){
+  closeModal() {
     this.modalController.dismiss();
   }
 
   async presentLoading() {
-    const loading = await this.loadingController.create({      
-      message: '',  
-      duration:350    
+    const loading = await this.loadingController.create({
+      message: '',
+      duration: 350
     });
-    await loading.present();    
+    await loading.present();
   }
 
-  async presentToast(msg:string,clr:string) {
+  async presentToast(msg: string, clr: string) {
     this.miToast = await this.toastController.create({
-      message: 'msg',
+      message: msg,
       duration: 2000,
-      color:clr
+      color: clr
 
     });
-   this.miToast.present();
+    this.miToast.present();
   }
 
 
