@@ -196,9 +196,8 @@ async openModal(note:Note){
          await this.cargaNotas();
          
 
-        }
+        }      
         
-        console.log(event.detail.value);
 
       }
 
