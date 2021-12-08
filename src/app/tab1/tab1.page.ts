@@ -155,6 +155,10 @@ async openModal(note:Note){
        miToast.present();
       }
 
+      /**
+       * Metodo que muestra una ventana de confirmación si se quiere borrar la nota
+       * @param note 
+       */
       async presentAlertConfirm(note:Note) {
         const alert = await this.alertController.create({
           cssClass: 'my-custom-class',
@@ -166,12 +170,13 @@ async openModal(note:Note){
               role: 'cancel',
               cssClass: 'secondary',
               handler: (blah) => {
-                console.log('Confirm Cancel: blah');
+                
               }
             }, {
               text: 'si',
+              //se introduce el método que se quiera realizar una vez pulsado dicho boton
               handler: () => {
-                console.log('Confirm Okay');
+                
                 this.borra(note);
               }
             }
