@@ -123,7 +123,11 @@ async openModal(note:Note){
     componentProps: {
       'key': note.key,
       'title': note.title,
-      'description': note.description
+      'description': note.description,
+      'geolocation':{
+        latitude:note.geolocation.latitude,
+        longitude:note.geolocation.longitude
+      }
     }
   });
   this.ns.setNotes(this.notas);

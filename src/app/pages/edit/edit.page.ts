@@ -22,6 +22,10 @@ export class EditPage implements OnInit {
   @Input() key: string;
   @Input() title: string;
   @Input() description: string;
+  @Input() geolocation: {
+        latitude:number,
+        longitude:number
+  }
 
 
   constructor(
@@ -35,7 +39,12 @@ export class EditPage implements OnInit {
     this.oldNote={
       key: this.key,
       title: this.title,
-      description: this.description
+      description: this.description,
+      geolocation: {
+        latitude:this.geolocation.latitude,
+        longitude:this.geolocation.longitude
+  }
+
     }
 
 
@@ -53,7 +62,11 @@ export class EditPage implements OnInit {
     let note: Note = {
       key: this.key,
       title: this.formNota.get("title").value,
-      description: this.formNota.get("description").value
+      description: this.formNota.get("description").value,
+      geolocation: {
+        latitude:this.geolocation.latitude,
+        longitude:this.geolocation.longitude
+  }
     }
     //para que se cargue la página de cargado
     await this.presentLoading();

@@ -3,4 +3,9 @@ export interface Note{
     title:string,
     description:string
 
+    geolocation:{
+        latitude:number,
+        longitude:number
+    }
+
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Note } from '../model/Note';
 import { NoteService } from '../services/note.service';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-tab2',
@@ -51,6 +52,9 @@ export class Tab2Page {
    this.miToast.present();
   }
 
+  ngOnInit(){
+    Geolocation.requestPermissions();
+  }
   ionViewDidEnter(){
    
   }
@@ -58,13 +62,22 @@ export class Tab2Page {
    * Método que guarda las notas en firebase
    */
   public async addNote(){
+    const coordinates = await Geolocation.getCurrentPosition();
+      
     let newNote:Note={
       title:this.formNota.get("title").value,
-      description:this.formNota.get("description").value
+      description:this.formNota.get("description").value,
+      geolocation:{
+        latitude:coordinates.coords.latitude,
+        longitude:coordinates.coords.longitude
+        
+      }
+
     }
     //para que se cargue la página de cargado
     await this.presentLoading();   
     try {
+      
       let id =await this.noteS.addNote(newNote);
       //para que se cierre, esto actua como un if, si se cumple la primera condición se ejecuta la segunda parte
       this.miLoading && this.miLoading.dismiss();
