@@ -1,15 +1,16 @@
-
 {
-	
-	"appId": "com.joaquin.Noteoa",
-	"appName": "Notea",
-	"webDir": "www",
-	"bundledWebRuntime": false,
-	"plugins": {
-		"GoogleAuth": {
-		  "scopes": ["profile", "email"],
-		  "serverClientId": "886762821500-sierb7intneccnupsp137fs0p2vkfemp.apps.googleusercontent.com",
-		  "forceCodeForRefreshToken": true
-		}
-	  }
+  "appId": "com.joaquin.Noteoa",
+  "appName": "Notea",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": [
+        "profile",
+        "email"
+      ],
+      "serverClientId": "886762821500-sierb7intneccnupsp137fs0p2vkfemp.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  }
 }
