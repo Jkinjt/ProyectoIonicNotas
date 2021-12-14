@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { NoteService } from '../services/note.service';
 import {EditPage} from '../pages/edit/edit.page'
 import { PartialObserver } from 'rxjs';
+import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -16,15 +17,16 @@ export class Tab1Page {
   @ViewChild(IonInfiniteScroll) infinite:IonInfiniteScroll;
   public notas:Note[]=[];
   private miLoading:HTMLIonLoadingElement;
+  
 
   constructor(
     private ns:NoteService,
-    private loading:LoadingController,
-    private toast:ToastController,
+    
     private authS:AuthService,
     private router:Router,
     public modalController:ModalController,
-    private alertController:AlertController
+    private alertController:AlertController,
+    private toast:ToastService
     ) {}
 
  async ionViewDidEnter(){
@@ -41,7 +43,7 @@ export class Tab1Page {
     }
 
     if(!event){
-      await this.presentLoading();
+      await this.toast.presentLoading();
 
     }
     this.notas=[];
@@ -52,7 +54,7 @@ export class Tab1Page {
       console.log(err);
       //notificar un error al usuario, se puede hacer el loading en un servicio para que no se pisen
       //si se muestran dos loading y se cierra, solo se cierra el último, son independientes
-     await this.presentToast("Error al cargar los datos","danger");
+     await this.toast.presentToast("Error al cargar los datos","danger");
     }finally{
       if(event){
         event.target.complete();
@@ -70,7 +72,7 @@ export class Tab1Page {
    * @param nota que se desa borrar
    */
   public async borra(nota:Note){
-    await this.presentLoading();
+    await this.toast.presentLoading();
     await this.ns.removeNote(nota.key);
     //carga la nota
    let i= this.notas.indexOf(nota,0);
@@ -138,26 +140,9 @@ async openModal(note:Note){
   return await modal.present();
 }
 
-/**
- * Método que muestra un cargando mientras se cargan los datos
- */
-      async presentLoading() {
-        this.miLoading = await this.loading.create({      
-          message: '',  
-          duration:350    
-        });
-        await this.miLoading.present();    
-      }
+
     
-      async presentToast(msg:string,clr:string) {
-        const miToast = await this.toast.create({
-          message: 'msg',
-          duration: 2000,
-          color:clr
     
-        });
-       miToast.present();
-      }
       /**
        * Metodo que muestra una ventana de confirmación si se quiere borrar la nota
        * @param note 

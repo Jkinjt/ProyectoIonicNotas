@@ -5,6 +5,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Note } from '../model/Note';
 import { NoteService } from '../services/note.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-tab2',
@@ -25,7 +26,7 @@ export class Tab2Page {
      //para mostrar al usuario que esta ocurriendo algo
      private loadingController: LoadingController,
      //para invocar al toast
-     public toastController: ToastController,
+     private toast:ToastService,
      private route:Router
      ) {
     this.formNota=this.fgb.group({
@@ -34,23 +35,9 @@ export class Tab2Page {
     });
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({      
-      message: '',  
-      duration:350    
-    });
-    await loading.present();    
-  }
+ 
 
-  async presentToast(msg:string,clr:string) {
-    this.miToast = await this.toastController.create({
-      message: msg,
-      duration: 2000,
-      color:clr
-
-    });
-   this.miToast.present();
-  }
+  
 
   ngOnInit(){
     
@@ -76,18 +63,18 @@ export class Tab2Page {
 
     }
     //para que se cargue la página de cargado
-    await this.presentLoading();   
+    await this.toast.presentLoading();   
     try {
       
       let id =await this.noteS.addNote(newNote);
       //para que se cierre, esto actua como un if, si se cumple la primera condición se ejecuta la segunda parte
       this.miLoading && this.miLoading.dismiss();
-      await this.presentToast("Nota agregada correctamente","succes");
+      await this.toast.presentToast("Nota agregada correctamente","succes");
       this.formNota.reset();
     }catch(err){
       console.log(err);
       this.miLoading && this.miLoading.dismiss();
-      await this.presentToast("No se ha podido añadir la nota","danger")
+      await this.toast.presentToast("No se ha podido añadir la nota","danger")
 
     } 
 
