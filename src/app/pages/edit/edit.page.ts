@@ -22,6 +22,7 @@ export class EditPage implements OnInit {
   @Input() key: string;
   @Input() title: string;
   @Input() description: string;
+  @Input() photo: string;
   @Input() geolocation: {
         latitude:number,
         longitude:number
@@ -40,6 +41,7 @@ export class EditPage implements OnInit {
       key: this.key,
       title: this.title,
       description: this.description,
+      photo:this.photo,
       geolocation: {
         latitude:this.geolocation.latitude,
         longitude:this.geolocation.longitude
@@ -63,6 +65,7 @@ export class EditPage implements OnInit {
       key: this.key,
       title: this.formNota.get("title").value,
       description: this.formNota.get("description").value,
+      photo:this.photo,
       geolocation: {
         latitude:this.geolocation.latitude,
         longitude:this.geolocation.longitude

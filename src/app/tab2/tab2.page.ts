@@ -56,6 +56,7 @@ export class Tab2Page {
     let newNote:Note={
       title:this.formNota.get("title").value,
       description:this.formNota.get("description").value,
+      //photo:this.image,
       geolocation:{
         latitude:coordinates.coords.latitude,
         longitude:coordinates.coords.longitude
@@ -90,6 +91,7 @@ export class Tab2Page {
     }
     let result: Photo = await Camera.getPhoto(option);
     this.image = result.webPath;
+    
   }
   public removePhoto():void{
     this.image=null;

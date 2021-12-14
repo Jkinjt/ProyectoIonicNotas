@@ -21,9 +21,9 @@
       <ion-icon name="camera" slot="end">Fotografiar</ion-icon>
   
     </ion-button>
-    <div id="map"></div>
+  
+  <ion-icon id="remove" name="trash" *ngIf="this.image" style="zoom:3.0" (click)="removePhoto()"></ion-icon>
    <ion-img id="photo" *ngIf="this.image" [src]="this.image"></ion-img>
-   <ion-icon id="remove" name="trash" *ngIf="this.image" style="zoom:3.0" (click)="removePhoto()"></ion-icon>
     <section class="full-width">
       <!--lo que esta entre corchetes son atributos que afectan al html-->
       <ion-button expand="full" color="primary"
