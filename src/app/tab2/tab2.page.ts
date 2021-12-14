@@ -53,6 +53,7 @@ export class Tab2Page {
   }
 
   ngOnInit(){
+    
     Geolocation.requestPermissions();
   }
   ionViewDidEnter(){

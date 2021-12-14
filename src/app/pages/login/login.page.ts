@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
       console.error(err);
 
     }finally{
-      console.log(this.authS.user);
+      
     }
     
   }

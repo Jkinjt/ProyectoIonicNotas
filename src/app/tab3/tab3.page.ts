@@ -63,6 +63,10 @@ export class Tab3Page {
 
 
   }
+  /**
+   * Método que cambia el idioma
+   * @param event 
+   */
   public async cambiaIdioma(event) {
 
     if (event && event.detail && event.detail.checked) {
