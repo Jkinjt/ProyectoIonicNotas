@@ -26,6 +26,10 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 //mi css
+//Hoja de estilos para el mapa
+@import url("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css");
+
+
 .my-modal-class {
     --background: #222;
   }

@@ -158,12 +158,11 @@ async openModal(note:Note){
         });
        miToast.present();
       }
-
       /**
        * Metodo que muestra una ventana de confirmación si se quiere borrar la nota
        * @param note 
        */
-      async presentAlertConfirm(note:Note) {
+       async presentAlertConfirm(note:Note) {
         const alert = await this.alertController.create({
           cssClass: 'my-custom-class',
           header: 'Confirmar',
@@ -189,6 +188,7 @@ async openModal(note:Note){
     
         await alert.present();
       }
+     
 
      async ionChanges(event){
         let notes:Note[]=[]

@@ -11,6 +11,7 @@ export class NoteService {
   private notes: Note[] = [];
   //variable para crear el observable
   private notes$: Subject<Note[]>;
+  private noteGeolocation$: Subject<Note[]>
   //variable para almacenar la última nota vista
   private last: any = null;
   //variable que almacena la collección de firestore
