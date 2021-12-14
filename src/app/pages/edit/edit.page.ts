@@ -19,14 +19,8 @@ export class EditPage implements OnInit {
   private miToast: HTMLIonToastElement;
 
   //datos que se obtienen desde la pagina donde se llama el modal
-  @Input() key: string;
-  @Input() title: string;
-  @Input() description: string;
-  @Input() photo: string;
-  @Input() geolocation: {
-        latitude:number,
-        longitude:number
-  }
+  @Input() note:Note
+  
 
 
   constructor(
@@ -37,38 +31,42 @@ export class EditPage implements OnInit {
     public toastController: ToastController,
     
   ) {
+   
+
+
+  }
+  async ionViewDidEnter(){
+     
     this.oldNote={
-      key: this.key,
-      title: this.title,
-      description: this.description,
-      photo:this.photo,
+      key: this.note.key,
+      title: this.note.title,
+      description: this.note.description,
+     // photo:this.photo,
       geolocation: {
-        latitude:this.geolocation.latitude,
-        longitude:this.geolocation.longitude
+        latitude:this.note.geolocation.latitude,
+        longitude:this.note.geolocation.longitude
   }
 
     }
-
-
   }
 
   ngOnInit() {
     this.formNota = this.fgb.group({
-      title: [this.title, Validators.required],
-      description: [this.description]
+      title: [this.note.title, Validators.required],
+      description: [this.note.description]
     });
 
   }
 
   public async editNote() {
     let note: Note = {
-      key: this.key,
+      key: this.note.key,
       title: this.formNota.get("title").value,
       description: this.formNota.get("description").value,
-      photo:this.photo,
+     // photo:this.photo,
       geolocation: {
-        latitude:this.geolocation.latitude,
-        longitude:this.geolocation.longitude
+        latitude:this.note.geolocation.latitude,
+        longitude:this.note.geolocation.longitude
   }
     }
     //para que se cargue la página de cargado

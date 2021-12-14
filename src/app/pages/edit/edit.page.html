@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Editar</ion-title>
-    <ion-buttons>
-      <ion-icon name="close-circle" (click)="closeModal()"></ion-icon>
-    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -17,11 +15,12 @@
       <ion-label>Descripción</ion-label>
       <ion-textarea type="text" formControlName="description"></ion-textarea>
     </ion-item>
-    <section class="full-width">
+    <section class="full-width" >
       <!--lo que esta entre corchetes son atributos que afectan al html-->
-      <ion-button expand="full" color="primary"
+      <ion-button  color="primary"
       
       type="submit" [disabled]="this.formNota.invalid">Editar</ion-button>
+      <ion-button  color="tertiary" (click)="closeModal()">Cancelar</ion-button>
     </section>
   </form>
 </ion-content>

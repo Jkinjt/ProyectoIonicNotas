@@ -119,19 +119,18 @@ export class Tab1Page {
  * @returns promise<void>
  */ 
 async openModal(note:Note){
+  console.log(note.geolocation);
+  
   const modal = await this.modalController.create({
     component: EditPage,
     //hoja de estilos
     cssClass: 'my-modal-class',
     //pasar datos al modal
+    
     componentProps: {
-      'key': note.key,
-      'title': note.title,
-      'description': note.description,
-      'geolocation':{
-        latitude:note.geolocation.latitude,
-        longitude:note.geolocation.longitude
-      }
+      'note':note
+      
+      
     }
   });
   this.ns.setNotes(this.notas);
