@@ -8,6 +8,7 @@ import { NoteService } from '../services/note.service';
 import {EditPage} from '../pages/edit/edit.page'
 import { PartialObserver } from 'rxjs';
 import { ToastService } from '../services/toast.service';
+import { User } from '@codetrix-studio/capacitor-google-auth/dist/esm/user';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -17,6 +18,7 @@ export class Tab1Page {
   @ViewChild(IonInfiniteScroll) infinite:IonInfiniteScroll;
   public notas:Note[]=[];
   private miLoading:HTMLIonLoadingElement;
+  public userinfo:User;
   
 
   constructor(

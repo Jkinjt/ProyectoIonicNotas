@@ -1,14 +1,25 @@
 <ion-header>
   <ion-toolbar>
+    
     <ion-title>login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-button (click)="signin()">Sign in</ion-button>
-<ion-card>
-  <ion-card-content>
-    {{userinfo| json}}
-  </ion-card-content>
-</ion-card>
+  <div class="login-page">
+    <div class="form">
+      
+      <form class="login-form">
+        
+        <ion-button (click)="signin()">Sign in</ion-button>
+        
+      </form>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-card-content>
+      {{userinfo| json}}
+    </ion-card-content>
+  </ion-card>
 </ion-content>
