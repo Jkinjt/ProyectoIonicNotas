@@ -6,6 +6,7 @@ import { Note } from '../model/Note';
 import { NoteService } from '../services/note.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { ToastService } from '../services/toast.service';
+import { Camera, CameraResultType, CameraSource, ImageOptions, Photo } from '@capacitor/camera';
 
 @Component({
   selector: 'app-tab2',
@@ -17,8 +18,8 @@ export class Tab2Page {
   public formNota:FormGroup
   //variable que almacena el elemento que es el loading, para poder cerrarlo luego, es un puntero
   public miLoading:HTMLIonLoadingElement
-  //puntero al toast
-  private miToast:HTMLIonToastElement
+  public image?: any;
+  
 
   constructor(
     private fgb:FormBuilder,
@@ -78,6 +79,20 @@ export class Tab2Page {
 
     } 
 
+  }
+  public async hazFoto() {
+    let option: ImageOptions = {
+      resultType: CameraResultType.Uri,
+      allowEditing: false,
+      quality: 90,
+      //de donde se saca la fotografia
+      source: CameraSource.Camera
+    }
+    let result: Photo = await Camera.getPhoto(option);
+    this.image = result.webPath;
+  }
+  public removePhoto():void{
+    this.image=null;
   }
 
 }

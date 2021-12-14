@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, ImageOptions, Photo } from '@capacitor/camera';
+
 import { IonToggle } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Map, Marker, marker, tileLayer } from 'leaflet';
@@ -18,7 +18,7 @@ export class Tab3Page {
   public notes: Note[];
 
 
-  public image?: any;
+ 
   constructor(private traductor: TranslateService,
     private storage: LocalStorageService,
     private noteS: NoteService) {
@@ -79,17 +79,7 @@ export class Tab3Page {
     }
   }
 
-  public async hazFoto() {
-    let option: ImageOptions = {
-      resultType: CameraResultType.Uri,
-      allowEditing: false,
-      quality: 90,
-      //de donde se saca la fotografia
-      source: CameraSource.Camera
-    }
-    let result: Photo = await Camera.getPhoto(option);
-    this.image = result.webPath;
-  }
+  
 
 
 }
